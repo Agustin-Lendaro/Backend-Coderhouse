@@ -40,7 +40,7 @@ class ProductManager {
     }
 
     getProductById = (productId) => {
-        const searchedProduct = this.products.find(product => product.code === productId);
+        const searchedProduct = this.products.find(product => product.Id === productId);
 
         if (searchedProduct) return searchedProduct;
 
