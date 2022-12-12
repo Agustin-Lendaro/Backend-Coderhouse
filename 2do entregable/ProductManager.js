@@ -6,7 +6,7 @@ class ProductManager {
     fs.existsSync(this.filename) ? this.products = JSON.parse(fs.readFileSync(this.filename, 'utf-8')) : this.products = [];
   }
 
-  addProduct = (title = "neededParameter", description = "neededParameter", price = "neededParameter", thumbnail = "neededParameter", code = "neededParameter", stock = "neededParameter") => {
+  addProduct = (title, description , price , thumbnail , code , stock ) => {
     let product = {
       title: title,
       description: description,
@@ -15,19 +15,30 @@ class ProductManager {
       code: code,
       stock: stock,
     }
- 
+     
     this.products.length === 0 ? product["id"] = 1 : product["id"] = this.products[this.products.length -1 ]["id"] + 1
     let duplicateCodes = this.products.some(product => product.code === code)
 
-    if (duplicateCodes)
-    console.error('Cannot add a product with a duplicate code.')
-    else if (title == "neededParameter"|| description == "neededParameter"|| price == "neededParameter"|| thumbnail == "neededParameter"|| code == "neededParameter" || stock == "neededParameter"){
+    if (!this.allParametersWritten(product)){ //si no es valido
       console.error('A parameter is missing.')
     }
-    else {
+    else if (duplicateCodes){      //si no está duplicado
+      console.error('Code already exists')
+    }
+    else { 
       this.products.push(product)
       fs.writeFileSync(this.path, JSON.stringify(this.products, null, '\t'))
-    }
+    } 
+  }
+
+  allParametersWritten(objectToBeChecked){
+    let valido = true
+    Object.getOwnPropertyNames(objectToBeChecked).forEach(property => {   //chequeamos que todos los parametros tengan algo escrito
+      if (!objectToBeChecked[property]) {
+       valido = false;
+      }      
+    })
+    return valido   
   }
 
   getProducts = () => {
@@ -80,4 +91,5 @@ manager.updateProduct(1, "price" ,300)
 manager.updateProduct(1, "id" ,300) //no se puede cambiar id
 console.log(manager.getProducts()) 
 manager.deleteProduct(3)
+manager.addProduct('Test1', 'Probando1', 340, 'sin imagen', '1271', 10)
 manager.addProduct('Test5', 340, 'sin imagen', '1223131237', 10) //falla por falta de parametro
