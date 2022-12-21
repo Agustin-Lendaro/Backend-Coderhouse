@@ -42,9 +42,11 @@ class ProductManager {
   }
 
   getProducts = () => {
+    //fs.readFileSync('./Products.json', 'utf-8')
     fs.existsSync(this.filename) ? this.products = JSON.parse(fs.readFileSync(this.filename, 'utf-8')) : this.products = []
+    console.log(fs.readFileSync('./Products.json', 'utf-8'));
     console.log(this.products);
-    return this.products
+    return fs.readFileSync('./Products.json', 'utf-8')
   }
 
   getElementById = (id) => {

@@ -5,7 +5,11 @@ const app = express();
 
 app.use(express.urlencoded({extended:true}))
 
-app.get ("/", (req, res) => {
+app.get("/", (req, res) => {
+    res.send("Homepage")
+})
+
+app.get ("/products", (req, res) => {
     let limit = parseInt (req.query.limit)
     try {
         if (!limit || limit === 0){
