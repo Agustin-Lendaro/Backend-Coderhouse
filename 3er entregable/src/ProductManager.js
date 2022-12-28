@@ -3,7 +3,7 @@ import fs from "fs";
 class ProductManager {
   constructor(filename) {
     this.path = filename
-    fs.existsSync(this.filename) ? this.products = JSON.parse(fs.readFileSync(this.filename, 'utf-8')) : this.products = [];
+    fs.existsSync(this.path) ? this.products = JSON.parse(fs.readFileSync(this.path, 'utf-8')) : this.products = [];
   }
 
   addProduct = (title, description , price , thumbnail , code , stock ) => {
@@ -42,16 +42,14 @@ class ProductManager {
   }
 
   getProducts = () => {
-    //fs.readFileSync('./Products.json', 'utf-8')
-    fs.existsSync(this.filename) ? this.products = JSON.parse(fs.readFileSync(this.filename, 'utf-8')) : this.products = []
-    console.log(fs.readFileSync('./Products.json', 'utf-8'));
     console.log(this.products);
-    return fs.readFileSync('./Products.json', 'utf-8')
+    return this.products
   }
 
   getElementById = (id) => {
     let productId = this.products.find(product => product.id === id)
     console.log('The product by ID:', productId || 'Not found')
+    return productId
   }
 
   updateProduct(id, partToUpdate, newValue) {
@@ -99,5 +97,5 @@ manager.addProduct('Test1', 'Probando1', 340, 'sin imagen', '1271', 10)
 manager.addProduct('Test5', 340, 'sin imagen', '1223131237', 10) //falla por falta de parametro
 */
 manager.getProducts()
-
+manager.getElementById(3)
 export default new ProductManager("./Products.json")
